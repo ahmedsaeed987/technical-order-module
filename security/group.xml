@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="group_Technical_Order" model="res.groups">
+            <field name="name">Technical Order Manager</field>
+        </record>
+
+        <record id="group_sale_manager" model="res.groups">
+            <field name="name">sale manager</field>
+        </record>
+    </data>
+</odoo>

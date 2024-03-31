@@ -1,0 +1,10 @@
+    <data noupdate="1">
+
+        <record model="ir.sequence" id="technical-order_sequence">
+            <field name="name">technical order</field>
+            <field name="code">technical_order</field>
+            <field name="prefix">TO</field>
+            <field name="padding">4</field>
+        </record>
+
+    </data>

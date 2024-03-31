@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="report_technical_order" model="ir.actions.report">
+            <field name="name">technical order Print</field>
+            <field name="model">technical.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">technical_order_module.report_technical_order_tmeplate</field>
+            <field name="report_file">technical_order_module_technical_order_report_views.xml</field>
+            <field name="binding_model_id" ref="model_technical_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_technical_order_tmeplate">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+
+                            <div class="text-left mb-4">
+                                <span style="font-size:40px;font-weight:bold">order:</span>
+                                <span style="font-size:40px;font-weight:bold" t-field="doc.name_seq"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <strong>request_name:</strong>
+                                    <span t-field="doc.request_name"/>
+                                    <br/>
+                                    <strong>requested_by:</strong>
+                                    <span t-field="doc.requested_by"/>
+                                    <br/>
+                                    <strong>customer:</strong>
+                                    <span t-field="doc.customer"/>
+                                    <br/>
+                                    <strong>start_date:</strong>
+                                    <span t-field="doc.start_date"/>
+                                    <br/>
+                                    <strong>end_date:</strong>
+                                    <span t-field="doc.end_date"/>
+                                </div>
+                                <div class="col-3">
+                                    <strong>total_price:</strong>
+                                    <span t-field="doc.total_price"/>
+                                    <br/>
+                                    <strong>status:</strong>
+                                    <span t-field="doc.status"/>
+                                    <br/>
+                                    <strong>rejection_reason:</strong>
+                                    <span t-field="doc.rejection_reason"/>
+
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+
+                            <table class="table table-sm o_main_table" style="direction:ltr;width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>product_id</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Description</strong>
+                                        </th>
+                                        <th>
+                                            <strong>quantity</strong>
+                                        </th>
+                                        <th>
+                                            <strong>price</strong>
+                                        </th>
+                                        <th>
+                                            <strong>total</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total_price" t-value="0"/>
+                                    <tr t-foreach="doc.order_lines.filtered(lambda l: l.price > 0)" t-as="line">
+                                        <t t-set="total_price" t-value="total_price+line.price"/>
+
+                                        <td style="width:10%">
+                                            <span t-field="line.product_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.Description"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.quantity"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-field="line.price"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.total"/>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+
+
+
+                            <br/>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

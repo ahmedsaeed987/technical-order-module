@@ -1,0 +1,126 @@
+<odoo>
+    <data>
+        <record id="orders_tree" model="ir.ui.view">
+            <field name="name">order tree</field>
+            <field name="model">technical.order</field>
+            <field name="arch" type="xml">
+                <tree string="orders">
+                    <field name="name_seq"/>
+                    <field name="request_name"/>
+                    <field name="requested_by"/>
+                    <field name="customer"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="rejection_reason"/>
+                    <field name="total_price"/>
+                    <field name="status"/>
+                    <field name="order_count"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="technical_view_search" model="ir.ui.view">
+            <field name="name">itechnical search</field>
+            <field name="model">technical.order</field>
+            <field name="arch" type="xml">
+                <search string="technical">
+                    <field name="name_seq"/>
+                    <field name="request_name"/>
+                </search>
+            </field>
+        </record>
+        <record id="orders_form" model="ir.ui.view">
+            <field name="name">orders form</field>
+            <field name="model">technical.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                        <button string="Submit for Approval" type="object" name="action_submit_for_approval"
+                                attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                        <button string="Cancel" type="object" name="action_cancel"
+                                attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                        <button string="Approve" type="object" name="action_approve"
+                                attrs="{'invisible': [('status', '!=', 'to_be_approved')]}"
+
+                                class="oe_highlight"/>
+                        <button string="Reject" type="object" name="action_reject"
+                                attrs="{'invisible': [('status', '!=', 'to_be_approved')]}"
+
+                                class="oe_highlight"/>
+                        <button string="Reset to Draft" type="object" name="action_reset_to_draft"
+                                attrs="{'invisible': [('status', '!=', 'cancel')]}"
+                                class="oe_highlight"/>
+                        <button name="action_create_so" string="Create SO" type="object"
+                                attrs="{'invisible': [('status', '!=', 'approve')]}"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="action_order_count"
+                                    type="object" icon="fa-bars">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="order_count"/>
+                                    </span>
+                                    <span class="o_stat_text">
+                                        order_counts
+                                    </span>
+                                </div>
+                            </button>
+
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name_seq"/>
+                                <field name="request_name"/>
+                                <field name="requested_by"/>
+                                <field name="customer"/>
+                                <field name="order_count"/>
+
+
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="total_price"/>
+                                <field name="rejection_reason" readonly="1"
+                                       attrs="{'invisible': [('status', '!=', 'reject')]}"/>
+
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="order lines">
+
+                                <field name="order_lines">
+                                    <tree>
+                                        <field name="product_id"/>
+                                        <field name="Description"/>
+                                        <field name="quantity"/>
+                                        <field name="price"/>
+                                        <field name="total"/>
+                                        <field name="sup_quantity"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="order_action" model="ir.actions.act_window">
+            <field name="name">orders</field>
+            <field name="res_model">technical.order</field>
+
+        </record>
+        <menuitem id="iti_order" name="Orders"/>
+        <menuitem id="iti_order_menu" name="Store Orders" parent="iti_order"
+                  action="order_action"/>
+
+
+    </data>
+</odoo>
